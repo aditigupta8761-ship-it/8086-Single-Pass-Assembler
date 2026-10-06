@@ -1,0 +1,725 @@
+/* =========================================================
+   8086 SINGLE PASS ASSEMBLER
+   CSS
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #0b1120;
+
+    color: #e2e8f0;
+
+    min-height: 100vh;
+}
+
+
+/* ================= HEADER ================= */
+
+.header {
+
+    height: 75px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 40px;
+
+    background: #111827;
+
+    border-bottom: 1px solid #263244;
+}
+
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.logo-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    font-size: 22px;
+}
+
+
+.logo h1 {
+
+    font-size: 20px;
+
+    color: white;
+}
+
+
+.logo p {
+
+    font-size: 12px;
+
+    color: #94a3b8;
+
+    margin-top: 3px;
+}
+
+
+.header-info {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+
+.header-info span {
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: #1e293b;
+
+    color: #93c5fd;
+
+    font-size: 12px;
+}
+
+
+/* ================= MAIN ================= */
+
+.container {
+
+    max-width: 1300px;
+
+    margin: auto;
+
+    padding: 30px 25px;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+
+.hero h2 {
+
+    font-size: 30px;
+
+    margin-bottom: 8px;
+
+    color: white;
+}
+
+
+.hero p {
+
+    color: #94a3b8;
+
+    font-size: 15px;
+}
+
+
+.status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 15px;
+
+    border-radius: 20px;
+
+    background: #13251b;
+
+    color: #4ade80;
+
+    font-size: 13px;
+}
+
+
+.status-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    background: #22c55e;
+
+    border-radius: 50%;
+}
+
+
+/* ================= TOOLBAR ================= */
+
+.toolbar {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+
+.btn {
+
+    border: none;
+
+    padding: 11px 18px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn:hover {
+
+    transform: translateY(-1px);
+
+    opacity: 0.9;
+}
+
+
+.primary {
+
+    background: #2563eb;
+
+    color: white;
+}
+
+
+.secondary {
+
+    background: #1e293b;
+
+    color: #cbd5e1;
+
+    border: 1px solid #334155;
+}
+
+
+/* ================= PANELS ================= */
+
+.panel {
+
+    background: #111827;
+
+    border: 1px solid #263244;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.panel-header {
+
+    height: 48px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #172033;
+
+    border-bottom: 1px solid #263244;
+}
+
+
+.panel-header h3 {
+
+    font-size: 14px;
+
+    color: #e2e8f0;
+}
+
+
+.panel-header span {
+
+    font-size: 11px;
+
+    color: #64748b;
+}
+
+
+/* ================= EDITOR ================= */
+
+.editor-section {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+.editor {
+
+    height: 390px;
+
+    display: flex;
+
+    background: #020617;
+}
+
+
+.line-numbers {
+
+    width: 45px;
+
+    padding-top: 15px;
+
+    text-align: right;
+
+    padding-right: 10px;
+
+    color: #475569;
+
+    background: #0f172a;
+
+    font: 14px/22px Consolas, monospace;
+
+    user-select: none;
+}
+
+
+textarea {
+
+    width: 100%;
+
+    height: 100%;
+
+    resize: none;
+
+    border: none;
+
+    outline: none;
+
+    padding: 15px;
+
+    background: #020617;
+
+    color: #e2e8f0;
+
+    font: 14px/22px Consolas, monospace;
+}
+
+
+textarea::placeholder {
+
+    color: #475569;
+}
+
+
+/* ================= OUTPUT ================= */
+
+.output {
+
+    height: 390px;
+
+    padding: 20px;
+
+    overflow: auto;
+
+    color: #4ade80;
+
+    font: 14px/24px Consolas, monospace;
+
+    background: #020617;
+}
+
+
+.output .empty {
+
+    color: #475569;
+}
+
+
+/* ================= STATS ================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+
+.stat-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px;
+
+    background: #111827;
+
+    border: 1px solid #263244;
+
+    border-radius: 10px;
+}
+
+
+.stat-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #1e293b;
+
+    font-size: 19px;
+}
+
+
+.stat-card p {
+
+    font-size: 11px;
+
+    color: #64748b;
+
+    margin-bottom: 5px;
+}
+
+
+.stat-card h3 {
+
+    font-size: 22px;
+
+    color: white;
+}
+
+
+/* ================= TABLES ================= */
+
+.tables {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+th {
+
+    text-align: left;
+
+    padding: 12px 15px;
+
+    font-size: 11px;
+
+    color: #64748b;
+
+    background: #0f172a;
+}
+
+
+td {
+
+    padding: 12px 15px;
+
+    border-top: 1px solid #1e293b;
+
+    font-size: 13px;
+
+    color: #cbd5e1;
+}
+
+
+.empty-cell {
+
+    text-align: center;
+
+    color: #475569;
+}
+
+
+td:first-child {
+
+    color: #60a5fa;
+
+    font-family: Consolas, monospace;
+}
+
+
+/* ================= ERROR PANEL ================= */
+
+.error-panel {
+
+    margin-bottom: 20px;
+}
+
+
+.messages {
+
+    padding: 15px;
+
+    min-height: 60px;
+}
+
+
+.message {
+
+    padding: 10px 12px;
+
+    border-radius: 6px;
+
+    margin-bottom: 5px;
+
+    font-size: 13px;
+}
+
+
+.message.success {
+
+    background: #10251a;
+
+    color: #4ade80;
+}
+
+
+.message.error {
+
+    background: #2a1215;
+
+    color: #f87171;
+}
+
+
+.message.warning {
+
+    background: #2a2110;
+
+    color: #fbbf24;
+}
+
+
+/* ================= REFERENCE ================= */
+
+.reference {
+
+    margin-bottom: 20px;
+}
+
+
+.instruction-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 10px;
+
+    padding: 15px;
+}
+
+
+.instruction {
+
+    padding: 13px;
+
+    background: #0f172a;
+
+    border: 1px solid #263244;
+
+    border-radius: 7px;
+}
+
+
+.instruction strong {
+
+    display: block;
+
+    color: #60a5fa;
+
+    margin-bottom: 5px;
+
+    font-family: Consolas, monospace;
+}
+
+
+.instruction span {
+
+    color: #64748b;
+
+    font: 12px Consolas, monospace;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    border-top: 1px solid #1e293b;
+}
+
+
+footer span {
+
+    margin: 0 8px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .editor-section {
+
+        grid-template-columns: 1fr;
+    }
+
+    .tables {
+
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .instruction-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .header {
+
+        padding: 0 15px;
+    }
+
+    .header-info {
+
+        display: none;
+    }
+
+    .container {
+
+        padding: 20px 12px;
+    }
+
+    .hero {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .hero h2 {
+
+        font-size: 24px;
+    }
+
+    .toolbar {
+
+        flex-wrap: wrap;
+    }
+
+    .stats {
+
+        grid-template-columns: 1fr;
+    }
+
+    .instruction-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}

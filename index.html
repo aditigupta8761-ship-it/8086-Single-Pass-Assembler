@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>8086 Single Pass Assembler</title>
+
+    <link rel="stylesheet"
+          href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="logo">
+            <div class="logo-icon">⚙</div>
+
+            <div>
+                <h1>8086 Assembler</h1>
+                <p>Single Pass Assembler</p>
+            </div>
+        </div>
+
+        <div class="header-info">
+            <span>8086</span>
+            <span>Single Pass</span>
+            <span>JavaScript</span>
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- Page Heading -->
+
+        <section class="hero">
+
+            <div>
+                <h2>8086 Single Pass Assembler</h2>
+
+                <p>
+                    Convert 8086 Assembly Language into
+                    Machine Code directly in your browser.
+                </p>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Ready
+            </div>
+
+        </section>
+
+
+        <!-- ================= TOOLBAR ================= -->
+
+        <section class="toolbar">
+
+            <button
+                class="btn primary"
+                onclick="assembleCode()">
+
+                ⚙ Assemble
+
+            </button>
+
+            <button
+                class="btn secondary"
+                onclick="loadExample()">
+
+                ▶ Load Example
+
+            </button>
+
+            <button
+                class="btn secondary"
+                onclick="clearAll()">
+
+                🗑 Clear
+
+            </button>
+
+            <button
+                class="btn secondary"
+                onclick="downloadCode()">
+
+                ↓ Download
+
+            </button>
+
+        </section>
+
+
+        <!-- ================= EDITOR ================= -->
+
+        <section class="editor-section">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        📝 Assembly Source Code
+                    </h3>
+
+                    <span>
+                        input.asm
+                    </span>
+
+                </div>
+
+                <div class="editor">
+
+                    <div
+                        id="lineNumbers"
+                        class="line-numbers">
+                    </div>
+
+                    <textarea
+                        id="sourceCode"
+                        spellcheck="false"
+                        oninput="updateLineNumbers()"
+                        placeholder="Enter 8086 assembly code here..."></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        💻 Machine Code
+                    </h3>
+
+                    <span>
+                        HEX
+                    </span>
+
+                </div>
+
+                <div
+                    id="machineCode"
+                    class="output">
+
+                    <div class="empty">
+                        Machine code will appear here...
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📄
+                </div>
+
+                <div>
+                    <p>Instructions</p>
+                    <h3 id="instructionCount">0</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📍
+                </div>
+
+                <div>
+                    <p>Symbols</p>
+                    <h3 id="symbolCount">0</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💾
+                </div>
+
+                <div>
+                    <p>Bytes Generated</p>
+                    <h3 id="byteCount">0</h3>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+                <div>
+                    <p>Errors</p>
+                    <h3 id="errorCount">0</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TABLES ================= -->
+
+        <section class="tables">
+
+
+            <!-- Symbol Table -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        📋 Symbol Table
+                    </h3>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Address</th>
+                            <th>Defined</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="symbolTable">
+
+                        <tr>
+                            <td colspan="3"
+                                class="empty-cell">
+
+                                No symbols yet
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- Fixup Table -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        🔧 Fixup Table
+                    </h3>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Patch Address</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="fixupTable">
+
+                        <tr>
+                            <td colspan="3"
+                                class="empty-cell">
+
+                                No forward references
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ERROR PANEL ================= -->
+
+        <section class="panel error-panel">
+
+            <div class="panel-header">
+
+                <h3>
+                    ❌ Errors / Messages
+                </h3>
+
+            </div>
+
+            <div
+                id="errorOutput"
+                class="messages">
+
+                <div class="message success">
+                    ✓ Ready to assemble your program.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= INSTRUCTION REFERENCE ================= -->
+
+        <section class="panel reference">
+
+            <div class="panel-header">
+
+                <h3>
+                    📚 Supported 8086 Instructions
+                </h3>
+
+            </div>
+
+            <div class="instruction-grid">
+
+                <div class="instruction">
+                    <strong>MOV</strong>
+                    <span>MOV AX, BX</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>MOV</strong>
+                    <span>MOV AX, 1234H</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>ADD</strong>
+                    <span>ADD AX, BX</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>SUB</strong>
+                    <span>SUB AX, BX</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>INC</strong>
+                    <span>INC AX</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>DEC</strong>
+                    <span>DEC AX</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>JMP</strong>
+                    <span>JMP LOOP</span>
+                </div>
+
+                <div class="instruction">
+                    <strong>LABEL</strong>
+                    <span>LOOP:</span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            8086 Single Pass Assembler
+            <span>•</span>
+            Project Based Learning
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
